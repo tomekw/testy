@@ -8,4 +8,10 @@ package Testy_Test is
    procedure Test_Two_Plus_One (T : in out Test_Context);
 
    procedure Test_Divide_By_Zero (T : in out Test_Context);
+
+   procedure Test_E_No_E (T : in out Test_Context);
+
+   procedure Test_Program_Error (T : in out Test_Context);
+
+   procedure Test_Constraint_Error_With_Message (T : in out Test_Context);
 end Testy_Test;

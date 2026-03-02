@@ -18,6 +18,30 @@ package body Testy_Test is
    procedure Test_Divide_By_Zero (T : in out Test_Context) is
    begin
       raise Constraint_Error with "divide by 0";
-      --  T.Expect (Result = 3, "expected 3, got:" & Result'Image);
    end Test_Divide_By_Zero;
+
+   procedure E_No_E is
+   begin
+      null;
+   end E_No_E;
+
+   procedure Test_E_No_E (T : in out Test_Context) is
+   begin
+      T.Expect_Raises (E_No_E'Access);
+   end Test_E_No_E;
+
+   procedure E_Wrong_E is
+   begin
+      raise Constraint_Error with "foo";
+   end E_Wrong_E;
+
+   procedure Test_Program_Error (T : in out Test_Context) is
+   begin
+      T.Expect_Raises (E_Wrong_E'Access, Program_Error'Identity);
+   end Test_Program_Error;
+
+   procedure Test_Constraint_Error_With_Message (T : in out Test_Context) is
+   begin
+      T.Expect_Raises (E_Wrong_E'Access, Constraint_Error'Identity, "bar");
+   end Test_Constraint_Error_With_Message;
 end Testy_Test;
