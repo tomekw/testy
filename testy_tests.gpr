@@ -1,0 +1,21 @@
+with "testy_config.gpr";
+with "testy.gpr";
+
+project Testy_Tests is
+
+   for Source_Dirs use ("tests");
+   for Object_Dir use "target/" & Testy_Config.Build_Profile & "/obj-tests";
+   for Exec_Dir use "target/" & Testy_Config.Build_Profile & "/bin";
+   for Main use ("run_tests.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        Testy_Config.Ada_Switches &
+        Testy_Config.Style_Switches;
+   end Compiler;
+
+   package Binder is
+      for Default_Switches ("Ada") use ("-Es");
+   end Binder;
+
+end Testy_Tests;

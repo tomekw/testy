@@ -1,0 +1,55 @@
+with Ada.Command_Line;
+
+package body Testy.Runners is
+   function Create return Runner is
+   begin
+      return (Items => Test_Case_Vectors.Empty_Vector);
+   end Create;
+
+   function Create (Name : String; Proc : Tests.Test_Procedure) return Test_Case is
+   begin
+      return (Name_Holder => String_Holders.To_Holder (Name), Tested_Procedure => Proc);
+   end Create;
+
+   procedure Add (Self : in out Runner; Name : String; Proc : Tests.Test_Procedure) is
+   begin
+      Self.Items.Append (Create (Name, Proc));
+   end Add;
+
+   procedure Run (Self : in out Runner; Reporter : in out Reporters.Reporter'Class) is
+      Passed_Count : Natural := 0;
+      Failed_Count : Natural := 0;
+      Error_Count : Natural := 0;
+      Tests_Count : constant Natural := Natural (Self.Items.Length);
+   begin
+      Reporter.Start_Suite (Tests_Count);
+
+      for Test of Self.Items loop
+         declare
+            Ctx : Tests.Test_Context;
+         begin
+            Reporter.Start_Test (Test.Name_Holder.Element);
+
+            Test.Tested_Procedure (Ctx);
+
+            if Ctx.Failed_Count = 0 then
+               Passed_Count := Passed_Count + 1;
+            else
+               Failed_Count := Failed_Count + 1;
+            end if;
+
+            Reporter.End_Test (Test.Name_Holder.Element, Ctx);
+         exception
+            when E : others =>
+               Error_Count := Error_Count + 1;
+               Reporter.End_Test (Test.Name_Holder.Element, E);
+         end;
+      end loop;
+
+      Reporter.End_Suite (Passed_Count, Failed_Count, Error_Count);
+
+      if Failed_Count /= 0 or else Error_Count /= 0 then
+         Command_Line.Set_Exit_Status (Command_Line.Failure);
+      end if;
+   end Run;
+end Testy.Runners;
