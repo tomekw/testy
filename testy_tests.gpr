@@ -6,7 +6,11 @@ project Testy_Tests is
    for Source_Dirs use ("tests");
    for Object_Dir use "target/" & Testy_Config.Build_Profile & "/obj-tests";
    for Exec_Dir use "target/" & Testy_Config.Build_Profile & "/bin";
-   for Main use ("run_tests.adb");
+   for Main use ("tests_main.adb");
+
+   package Builder is
+      for Executable ("tests_main.adb") use "tests";
+   end Builder;
 
    package Compiler is
       for Default_Switches ("Ada") use
