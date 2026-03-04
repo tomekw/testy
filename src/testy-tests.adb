@@ -27,8 +27,6 @@ package body Testy.Tests is
    procedure Expect_Raises (Test : in out Test_Context;
                             Proc : Raising_Procedure)
    is
-      use Exceptions;
-
       function No_Exception_Message return String is
       begin
          return "expected an exception to be raised, but none was raised";
