@@ -1,4 +1,4 @@
-# Testy
+# Testy [![Tests](https://github.com/tomekw/testy/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/tomekw/testy/actions/workflows/test.yml)
 
 A testing library in Ada. Part of [Tada](https://github.com/tomekw/tada).
 
