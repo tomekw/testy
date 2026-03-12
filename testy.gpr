@@ -2,17 +2,17 @@ with "testy_config.gpr";
 with "testy_deps.gpr";
 
 project Testy is
-
    for Source_Dirs use ("src");
    for Object_Dir use "target/" & Testy_Config.Build_Profile & "/obj";
    for Library_Name use "testy";
    for Library_Dir use "target/" & Testy_Config.Build_Profile & "/lib";
    for Library_Kind use "static";
 
-   package Compiler is
-      for Default_Switches ("Ada") use
-        Testy_Config.Ada_Switches &
-        Testy_Config.Style_Switches;
-   end Compiler;
+   package Builder is
+      for Default_Switches ("Ada") use Testy_Config.Builder_Switches;
+   end Builder;
 
+   package Compiler is
+      for Default_Switches ("Ada") use Testy_Config.Compiler_Switches;
+   end Compiler;
 end Testy;
