@@ -63,18 +63,21 @@ procedure Tests_Main is
 
    Test_Runner : Runners.Runner := Runners.Create;
    Test_Reporter : Reporters.Text.Text_Reporter;
+
+   Seed : constant Seed_Type := Runners.Random_Seed;
 begin
    Test_Runner.Add ("Foo starts with F", Foo_Tests.Foo_Starts_With_F'Access);
    Test_Runner.Add ("Foo raises", Foo_Tests.Foo_Raises'Access);
 
-   Test_Runner.Run (Test_Reporter);
+   --  Seed is optional, can be set directly to a value in 0 .. 99_999 range
+   Test_Runner.Run (Test_Reporter, Seed);
 end Tests_Main;
 ```
 
 ``` shell
 $ tada test
 
-Running 2 tests...
+Running 2 tests. Seed: 4521
 
 [PASS]: Foo starts with F
 [PASS]: Foo raises

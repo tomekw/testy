@@ -2,10 +2,10 @@ with Ada.Text_IO;
 
 package body Testy.Reporters.Text is
    overriding
-   procedure Start_Suite (Self : in out Text_Reporter; Tests_Count : Natural) is
+   procedure Start_Suite (Self : in out Text_Reporter; Tests_Count : Natural; Seed : Seed_Type) is
    begin
       Text_IO.New_Line;
-      Text_IO.Put_Line ("Running" & Tests_Count'Image & " tests...");
+      Text_IO.Put_Line ("Running" & Tests_Count'Image & " tests. Seed:" & Seed'Image);
       Text_IO.New_Line;
    end Start_Suite;
 

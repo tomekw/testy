@@ -4,13 +4,15 @@ with Testy.Reporters;
 with Testy.Tests;
 
 package Testy.Runners is
+   function Random_Seed return Seed_Type;
+
    type Runner is tagged private;
 
    function Create return Runner;
 
    procedure Add (Self : in out Runner; Name : String; Proc : Tests.Test_Procedure);
 
-   procedure Run (Self : in out Runner; Reporter : in out Reporters.Reporter'Class);
+   procedure Run (Self : in out Runner; Reporter : in out Reporters.Reporter'Class; Seed : Seed_Type := Random_Seed);
 
 private
 

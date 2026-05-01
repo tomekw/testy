@@ -5,7 +5,7 @@ with Testy.Tests;
 package Testy.Reporters is
    type Reporter is abstract tagged null record;
 
-   procedure Start_Suite (Self : in out Reporter; Tests_Count : Natural) is abstract;
+   procedure Start_Suite (Self : in out Reporter; Tests_Count : Natural; Seed : Seed_Type) is abstract;
 
    procedure End_Suite (Self : in out Reporter; Passed_Count : Natural; Failed_Count : Natural; Error_Count : Natural) is abstract;
 

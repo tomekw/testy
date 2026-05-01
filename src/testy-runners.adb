@@ -2,6 +2,17 @@ with Ada.Command_Line;
 with Ada.Numerics.Discrete_Random;
 
 package body Testy.Runners is
+   function Random_Seed return Seed_Type is
+      subtype Seed_Range is Natural range Seed_Type'Range;
+      package Random is new Numerics.Discrete_Random (Seed_Range);
+
+      Generator : Random.Generator;
+   begin
+      Random.Reset (Generator);
+
+      return Random.Random (Generator);
+   end Random_Seed;
+
    function Create return Runner is
    begin
       return (Items => Test_Case_Vectors.Empty_Vector);
@@ -17,14 +28,14 @@ package body Testy.Runners is
       Self.Items.Append (Create (Name, Proc));
    end Add;
 
-   procedure Shuffle (Items : in out Test_Case_Vectors.Vector) is
+   procedure Shuffle (Items : in out Test_Case_Vectors.Vector; Seed : Seed_Type) is
       subtype Index_Range is Positive range Items.First_Index .. Items.Last_Index;
 
       package Random is new Numerics.Discrete_Random (Index_Range);
 
       Generator : Random.Generator;
    begin
-      Random.Reset (Generator);
+      Random.Reset (Generator, Seed);
 
       for I in Items.First_Index .. Items.Last_Index - 1 loop
          declare
@@ -45,15 +56,15 @@ package body Testy.Runners is
       end loop;
    end Shuffle;
 
-   procedure Run (Self : in out Runner; Reporter : in out Reporters.Reporter'Class) is
+   procedure Run (Self : in out Runner; Reporter : in out Reporters.Reporter'Class; Seed : Seed_Type := Random_Seed) is
       Passed_Count : Natural := 0;
       Failed_Count : Natural := 0;
       Error_Count : Natural := 0;
       Tests_Count : constant Natural := Natural (Self.Items.Length);
    begin
-      Shuffle (Self.Items);
+      Shuffle (Self.Items, Seed);
 
-      Reporter.Start_Suite (Tests_Count);
+      Reporter.Start_Suite (Tests_Count, Seed);
 
       for Test of Self.Items loop
          declare
