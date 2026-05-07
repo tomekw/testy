@@ -87,7 +87,7 @@ Results: 2 passed, 0 failed, 0 errors, 2 total.
 
 ## Disclaimer
 
-This codebase is written by hand. Claude Code is used for Socratic design exploration and code review.
+This codebase is written by hand.
 
 ## License
 
