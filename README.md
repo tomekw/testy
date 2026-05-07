@@ -6,7 +6,7 @@ A testing library in Ada. Part of [Tada](https://github.com/tomekw/tada).
 
 This is alpha software. I'm actively working it. YMMV.
 
-Tested on Linux x86_64, MacOS ARM and Windows x86_64.
+Tested on Linux x86_64, Linux aarch64, OpenBSD x86_84, MacOS ARM and Windows x86_64.
 
 ## Usage
 

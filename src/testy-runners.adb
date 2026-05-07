@@ -1,5 +1,6 @@
 with Ada.Command_Line;
 with Ada.Numerics.Discrete_Random;
+with Ada.Text_IO;
 
 package body Testy.Runners is
    function Random_Seed return Seed_Type is
@@ -61,10 +62,26 @@ package body Testy.Runners is
       Failed_Count : Natural := 0;
       Error_Count : Natural := 0;
       Tests_Count : constant Natural := Natural (Self.Items.Length);
+      Actual_Seed : Seed_Type;
    begin
-      Shuffle (Self.Items, Seed);
+      if Command_Line.Argument_Count = 1 and then
+         Command_Line.Argument (1) /= ""
+      then
+         begin
+            Actual_Seed := Seed_Type'Value (Command_Line.Argument (1));
+         exception
+            when Constraint_Error =>
+               Text_IO.Put_Line (Text_IO.Standard_Error, "Invalid seed. Aborting");
+               Command_Line.Set_Exit_Status (Command_Line.Failure);
+               return;
+         end;
+      else
+         Actual_Seed := Seed;
+      end if;
 
-      Reporter.Start_Suite (Tests_Count, Seed);
+      Shuffle (Self.Items, Actual_Seed);
+
+      Reporter.Start_Suite (Tests_Count, Actual_Seed);
 
       for Test of Self.Items loop
          declare
